@@ -1,13 +1,15 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  DELETED
 }
 
 model User {
@@ -16,42 +18,41 @@ model User {
   password  String
   name      String?
   avatarUrl String?
-  
+  status    Status @default(ACTIVE)
   portfolios Portfolio[]
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
   
   @@map("users")
+  @@unique([email,deletedAt], name: "unique_email_deletedAt")
 }
 
 model Portfolio {
   id        String   @id @default(uuid())
-  name      String
-  slug      String   @unique
+  name      String   
+  slug      String   
   published Boolean  @default(false)
-  
-  // Store the entire portfolio configuration as JSON
+  status    Status @default(ACTIVE)
   theme     Json     @default("{}")
   sections  Json     @default("[]")
   
-  // SEO and metadata
   metaTitle       String?
   metaDescription String?
   favicon         String?
   
-  // Analytics
   views     Int      @default(0)
   
-  // Relations
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
   
   @@index([userId])
   @@index([slug])
-  @@unique([name, slug])
   @@map("portfolios")
+  @@unique([name, slug,deletedAt], name: "unique_name_slug_deletedAt")
 }

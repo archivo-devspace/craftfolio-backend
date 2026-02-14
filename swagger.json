@@ -1,0 +1,987 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_root",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "description": "Creates a new user account and returns user info with JWT access token.",
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 201,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "user": {
+                        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                        "email": "jane.doe@example.com",
+                        "name": "Jane Doe"
+                      },
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Authenticates with email and password, returns user info and JWT access token.",
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 201,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "user": {
+                        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                        "email": "jane.doe@example.com",
+                        "name": "Jane Doe"
+                      },
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Login",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "description": "Returns the authenticated user id, email, and name. Requires valid JWT.",
+        "operationId": "AuthController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current user info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "email": "jane.doe@example.com",
+                      "name": "Jane Doe",
+                      "avatarUrl": null,
+                      "status": "ACTIVE",
+                      "id": "b8ad06ea-71dd-4188-b479-c6573cc914f6",
+                      "createdAt": "2026-02-14T11:18:22.438Z",
+                      "updatedAt": "2026-02-14T11:18:22.438Z",
+                      "deletedAt": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get current user (me)",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "description": "Returns the authenticated user profile (password excluded).",
+        "operationId": "UsersController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "email": "jane.doe@example.com",
+                      "name": "Jane Doe",
+                      "avatarUrl": "https://example.com/avatars/jane.png",
+                      "status": "ACTIVE",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T10:00:00.000Z",
+                      "deletedAt": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get current user profile",
+        "tags": [
+          "users"
+        ]
+      },
+      "patch": {
+        "description": "Updates the authenticated user profile. Only provided fields are updated.",
+        "operationId": "UsersController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              },
+              "examples": {
+                "updateName": {
+                  "summary": "Update name only",
+                  "value": {
+                    "name": "Jane Smith"
+                  }
+                },
+                "updateAvatar": {
+                  "summary": "Update avatar URL only",
+                  "value": {
+                    "avatarUrl": "https://example.com/avatars/new-avatar.png"
+                  }
+                },
+                "updateBoth": {
+                  "summary": "Update name and avatar",
+                  "value": {
+                    "name": "Jane Smith",
+                    "avatarUrl": "https://example.com/avatars/jane-smith.png"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "email": "jane.doe@example.com",
+                      "name": "Jane Doe",
+                      "avatarUrl": "https://example.com/avatars/jane.png",
+                      "status": "ACTIVE",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T10:00:00.000Z",
+                      "deletedAt": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update current user profile",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/portfolios/public": {
+      "get": {
+        "description": "Returns a published portfolio by slug and name. Increments view count. No auth required.",
+        "operationId": "PortfoliosController_getPublicPortfolio",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "query",
+            "description": "URL-friendly portfolio identifier",
+            "schema": {
+              "example": "my-portfolio",
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "required": true,
+            "in": "query",
+            "description": "Portfolio name (unique with slug)",
+            "schema": {
+              "example": "My Portfolio",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio found and returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "My Portfolio",
+                      "slug": "my-portfolio",
+                      "published": true,
+                      "status": "ACTIVE",
+                      "theme": {
+                        "primary": "#000000",
+                        "secondary": "#FFFFFF"
+                      },
+                      "sections": [
+                        {
+                          "type": "hero",
+                          "title": "My Portfolio",
+                          "description": "Welcome to my work"
+                        }
+                      ],
+                      "metaTitle": "My Portfolio",
+                      "metaDescription": "A showcase of my projects",
+                      "favicon": null,
+                      "views": 42,
+                      "userId": "user-uuid-here",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T12:00:00.000Z",
+                      "deletedAt": null
+                    },
+                    "timestamp": "2025-02-14T12:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get public portfolio by slug and name",
+        "tags": [
+          "portfolios"
+        ]
+      }
+    },
+    "/portfolios": {
+      "post": {
+        "description": "Creates a portfolio for the authenticated user.",
+        "operationId": "PortfoliosController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortfolioDto"
+              },
+              "examples": {
+                "minimal": {
+                  "summary": "Minimal (name + slug only)",
+                  "value": {
+                    "name": "My Portfolio",
+                    "slug": "my-portfolio"
+                  }
+                },
+                "full": {
+                  "summary": "Full payload",
+                  "value": {
+                    "name": "My Portfolio",
+                    "slug": "my-portfolio",
+                    "theme": {
+                      "primary": "#000000",
+                      "secondary": "#FFFFFF"
+                    },
+                    "sections": [
+                      {
+                        "type": "hero",
+                        "title": "My Portfolio",
+                        "description": "My Portfolio Description"
+                      }
+                    ],
+                    "published": false,
+                    "metaTitle": "My Portfolio",
+                    "metaDescription": "My Portfolio Description"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Portfolio created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "My Portfolio",
+                      "slug": "my-portfolio",
+                      "published": true,
+                      "status": "ACTIVE",
+                      "theme": {
+                        "primary": "#000000",
+                        "secondary": "#FFFFFF"
+                      },
+                      "sections": [
+                        {
+                          "type": "hero",
+                          "title": "My Portfolio",
+                          "description": "Welcome to my work"
+                        }
+                      ],
+                      "metaTitle": "My Portfolio",
+                      "metaDescription": "A showcase of my projects",
+                      "favicon": null,
+                      "views": 42,
+                      "userId": "user-uuid-here",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T12:00:00.000Z",
+                      "deletedAt": null
+                    },
+                    "timestamp": "2025-02-14T12:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a new portfolio",
+        "tags": [
+          "portfolios"
+        ]
+      },
+      "get": {
+        "description": "Returns all portfolios for the authenticated user.",
+        "operationId": "PortfoliosController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of portfolios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": [
+                      {
+                        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                        "name": "My Portfolio",
+                        "slug": "my-portfolio",
+                        "published": true,
+                        "status": "ACTIVE",
+                        "theme": {
+                          "primary": "#000000",
+                          "secondary": "#FFFFFF"
+                        },
+                        "sections": [
+                          {
+                            "type": "hero",
+                            "title": "My Portfolio",
+                            "description": "Welcome to my work"
+                          }
+                        ],
+                        "metaTitle": "My Portfolio",
+                        "metaDescription": "A showcase of my projects",
+                        "favicon": null,
+                        "views": 42,
+                        "userId": "user-uuid-here",
+                        "createdAt": "2025-02-14T10:00:00.000Z",
+                        "updatedAt": "2025-02-14T12:00:00.000Z",
+                        "deletedAt": null
+                      }
+                    ],
+                    "timestamp": "2025-02-14T12:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List my portfolios",
+        "tags": [
+          "portfolios"
+        ]
+      }
+    },
+    "/portfolios/{id}": {
+      "get": {
+        "description": "Returns a single portfolio by ID if it belongs to the current user.",
+        "operationId": "PortfoliosController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Portfolio UUID",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "My Portfolio",
+                      "slug": "my-portfolio",
+                      "published": true,
+                      "status": "ACTIVE",
+                      "theme": {
+                        "primary": "#000000",
+                        "secondary": "#FFFFFF"
+                      },
+                      "sections": [
+                        {
+                          "type": "hero",
+                          "title": "My Portfolio",
+                          "description": "Welcome to my work"
+                        }
+                      ],
+                      "metaTitle": "My Portfolio",
+                      "metaDescription": "A showcase of my projects",
+                      "favicon": null,
+                      "views": 42,
+                      "userId": "user-uuid-here",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T12:00:00.000Z",
+                      "deletedAt": null
+                    },
+                    "timestamp": "2025-02-14T12:00:00.000Z",
+                    "user": {
+                      "id": "user-uuid-here",
+                      "name": "Jane Doe",
+                      "email": "jane@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Portfolio not found"
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "summary": "Get portfolio by ID",
+        "tags": [
+          "portfolios"
+        ]
+      },
+      "patch": {
+        "description": "Updates a portfolio. Only provided fields are updated.",
+        "operationId": "PortfoliosController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Portfolio UUID",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePortfolioDto"
+              },
+              "examples": {
+                "updateName": {
+                  "summary": "Update name only",
+                  "value": {
+                    "name": "Updated Portfolio Name"
+                  }
+                },
+                "publish": {
+                  "summary": "Publish portfolio",
+                  "value": {
+                    "published": true
+                  }
+                },
+                "themeAndMeta": {
+                  "summary": "Update theme and meta",
+                  "value": {
+                    "theme": {
+                      "primary": "#1a1a1a",
+                      "secondary": "#f5f5f5"
+                    },
+                    "metaTitle": "New Meta Title",
+                    "metaDescription": "New meta description"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portfolio updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "My Portfolio",
+                      "slug": "my-portfolio",
+                      "published": true,
+                      "status": "ACTIVE",
+                      "theme": {
+                        "primary": "#000000",
+                        "secondary": "#FFFFFF"
+                      },
+                      "sections": [
+                        {
+                          "type": "hero",
+                          "title": "My Portfolio",
+                          "description": "Welcome to my work"
+                        }
+                      ],
+                      "metaTitle": "My Portfolio",
+                      "metaDescription": "A showcase of my projects",
+                      "favicon": null,
+                      "views": 42,
+                      "userId": "user-uuid-here",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T12:00:00.000Z",
+                      "deletedAt": null
+                    },
+                    "timestamp": "2025-02-14T12:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Portfolio not found"
+          }
+        },
+        "summary": "Update portfolio",
+        "tags": [
+          "portfolios"
+        ]
+      },
+      "delete": {
+        "description": "Soft-deletes a portfolio (sets deletedAt).",
+        "operationId": "PortfoliosController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Portfolio UUID",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio soft-deleted successfully (returns updated portfolio with status DELETED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "My Portfolio",
+                      "slug": "my-portfolio",
+                      "published": true,
+                      "status": "ACTIVE",
+                      "theme": {
+                        "primary": "#000000",
+                        "secondary": "#FFFFFF"
+                      },
+                      "sections": [
+                        {
+                          "type": "hero",
+                          "title": "My Portfolio",
+                          "description": "Welcome to my work"
+                        }
+                      ],
+                      "metaTitle": "My Portfolio",
+                      "metaDescription": "A showcase of my projects",
+                      "favicon": null,
+                      "views": 42,
+                      "userId": "user-uuid-here",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T12:00:00.000Z",
+                      "deletedAt": null
+                    },
+                    "timestamp": "2025-02-14T12:00:00.000Z",
+                    "status": "DELETED",
+                    "deletedAt": "2025-02-14T12:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Portfolio not found"
+          }
+        },
+        "summary": "Delete portfolio",
+        "tags": [
+          "portfolios"
+        ]
+      }
+    },
+    "/portfolios/{id}/publish": {
+      "patch": {
+        "description": "Flips the published flag (true → false or false → true).",
+        "operationId": "PortfoliosController_togglePublish",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Portfolio UUID",
+            "schema": {
+              "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publish state toggled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 200,
+                    "message": "Operation successfully!",
+                    "data": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "My Portfolio",
+                      "slug": "my-portfolio",
+                      "published": true,
+                      "status": "ACTIVE",
+                      "theme": {
+                        "primary": "#000000",
+                        "secondary": "#FFFFFF"
+                      },
+                      "sections": [
+                        {
+                          "type": "hero",
+                          "title": "My Portfolio",
+                          "description": "Welcome to my work"
+                        }
+                      ],
+                      "metaTitle": "My Portfolio",
+                      "metaDescription": "A showcase of my projects",
+                      "favicon": null,
+                      "views": 42,
+                      "userId": "user-uuid-here",
+                      "createdAt": "2025-02-14T10:00:00.000Z",
+                      "updatedAt": "2025-02-14T12:00:00.000Z",
+                      "deletedAt": null
+                    },
+                    "timestamp": "2025-02-14T12:00:00.000Z",
+                    "published": true
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Portfolio not found"
+          }
+        },
+        "summary": "Toggle portfolio publish state",
+        "tags": [
+          "portfolios"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Starter Kit API Documentation",
+    "description": "API documentation for Starter Kit",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "jwt": {
+        "scheme": "Bearer",
+        "bearerFormat": "Bearer",
+        "description": "[just text field] Please enter token in following format: Bearer <JWT>",
+        "name": "Authorization",
+        "type": "http",
+        "in": "Header"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email of the user",
+            "example": "jane.doe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password of the user",
+            "example": "password"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user",
+            "example": "Jane Doe"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "name"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email of the user",
+            "example": "jane.doe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password of the user",
+            "example": "password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Display name of the user",
+            "example": "Jane Smith"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "URL of the user avatar image",
+            "example": "https://example.com/avatars/jane.png"
+          }
+        }
+      },
+      "CreatePortfolioDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the portfolio",
+            "example": "My Portfolio"
+          },
+          "slug": {
+            "type": "string",
+            "description": "The slug of the portfolio",
+            "example": "my-portfolio"
+          },
+          "theme": {
+            "type": "object",
+            "description": "The theme of the portfolio",
+            "example": {
+              "primary": "#000000",
+              "secondary": "#FFFFFF"
+            }
+          },
+          "sections": {
+            "description": "The sections of the portfolio",
+            "example": [
+              {
+                "type": "hero",
+                "title": "My Portfolio",
+                "description": "My Portfolio Description"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "published": {
+            "type": "boolean",
+            "description": "The published status of the portfolio",
+            "example": true
+          },
+          "metaTitle": {
+            "type": "string",
+            "description": "The meta title of the portfolio",
+            "example": "My Portfolio"
+          },
+          "metaDescription": {
+            "type": "string",
+            "description": "The meta description of the portfolio",
+            "example": "My Portfolio Description"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "theme",
+          "sections",
+          "published",
+          "metaTitle",
+          "metaDescription"
+        ]
+      },
+      "UpdatePortfolioDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the portfolio",
+            "example": "My Portfolio"
+          },
+          "slug": {
+            "type": "string",
+            "description": "The slug of the portfolio",
+            "example": "my-portfolio"
+          },
+          "theme": {
+            "type": "object",
+            "description": "The theme of the portfolio",
+            "example": {
+              "primary": "#000000",
+              "secondary": "#FFFFFF"
+            }
+          },
+          "sections": {
+            "description": "The sections of the portfolio",
+            "example": [
+              {
+                "type": "hero",
+                "title": "My Portfolio",
+                "description": "My Portfolio Description"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "published": {
+            "type": "boolean",
+            "description": "The published status of the portfolio",
+            "example": true
+          },
+          "metaTitle": {
+            "type": "string",
+            "description": "The meta title of the portfolio",
+            "example": "My Portfolio"
+          },
+          "metaDescription": {
+            "type": "string",
+            "description": "The meta description of the portfolio",
+            "example": "My Portfolio Description"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "jwt": []
+    }
+  ]
+}

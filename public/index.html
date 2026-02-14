@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Craftfolio API</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.6;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: #1a1a1a;
+      background: #fafafa;
+    }
+    h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+    p { margin: 0.5rem 0 1rem; color: #444; }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 { font-size: 1rem; font-weight: 600; margin: 0 0 0.5rem; }
+    .card p { margin: 0; }
+    .link-block {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .link-block:hover { background: #1d4ed8; text-decoration: none; }
+    .meta { font-size: 0.875rem; color: #6b7280; margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Craftfolio API</h1>
+    <p>Backend API for the Craftfolio portfolio application. Built with NestJS, Prisma, and PostgreSQL.</p>
+    <p class="meta">Version 0.0.1</p>
+  </div>
+
+  <div class="card">
+    <h2>API documentation</h2>
+    <p>Interactive API docs are available via Swagger UI (development only).</p>
+    <a href="/swagger" class="link-block">Open Swagger UI</a>
+  </div>
+
+  <p class="meta">Craftfolio Backend · NestJS</p>
+</body>
+</html>
