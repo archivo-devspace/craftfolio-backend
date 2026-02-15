@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, ForbiddenException, ConflictException } 
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
-import { Status } from '@prisma/client';
+import { Status } from 'generated/prisma/client';
 
 @Injectable()
 export class PortfoliosService {

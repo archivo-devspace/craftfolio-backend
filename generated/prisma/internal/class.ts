@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.4.0",
   "engineVersion": "ab56fe763f921d033a6c195e7ddeb3e255bdbb57",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../generated/prisma\"\n  moduleFormat = \"esm\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Status {\n  ACTIVE\n  INACTIVE\n  DELETED\n}\n\nmodel User {\n  id         String      @id @default(uuid())\n  email      String      @unique\n  password   String\n  name       String?\n  avatarUrl  String?\n  status     Status      @default(ACTIVE)\n  portfolios Portfolio[]\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  @@unique([email, deletedAt], name: \"unique_email_deletedAt\")\n  @@map(\"users\")\n}\n\nmodel Portfolio {\n  id        String  @id @default(uuid())\n  name      String\n  slug      String\n  published Boolean @default(false)\n  status    Status  @default(ACTIVE)\n  theme     Json    @default(\"{}\")\n  sections  Json    @default(\"[]\")\n\n  metaTitle       String?\n  metaDescription String?\n  favicon         String?\n\n  views Int @default(0)\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  @@unique([name, slug, deletedAt], name: \"unique_name_slug_deletedAt\")\n  @@index([userId])\n  @@index([slug])\n  @@map(\"portfolios\")\n}\n",
+  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Status {\n  ACTIVE\n  INACTIVE\n  DELETED\n}\n\nmodel User {\n  id         String      @id @default(uuid())\n  email      String      @unique\n  password   String\n  name       String?\n  avatarUrl  String?\n  status     Status      @default(ACTIVE)\n  portfolios Portfolio[]\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  @@unique([email, deletedAt], name: \"unique_email_deletedAt\")\n  @@map(\"users\")\n}\n\nmodel Portfolio {\n  id        String  @id @default(uuid())\n  name      String\n  slug      String\n  published Boolean @default(false)\n  status    Status  @default(ACTIVE)\n  theme     Json    @default(\"{}\")\n  sections  Json    @default(\"[]\")\n\n  metaTitle       String?\n  metaDescription String?\n  favicon         String?\n\n  views Int @default(0)\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  @@unique([name, slug, deletedAt], name: \"unique_name_slug_deletedAt\")\n  @@index([userId])\n  @@index([slug])\n  @@map(\"portfolios\")\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -45,10 +45,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
   },
 

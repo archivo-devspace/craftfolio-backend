@@ -5,7 +5,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'generated/prisma/client';
 
 type PrismaErrorMeta = {
   target?: string[];

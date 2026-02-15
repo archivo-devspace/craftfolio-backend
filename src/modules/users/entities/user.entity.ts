@@ -1,4 +1,4 @@
-import { Status, User } from '@prisma/client';
+import { Status, User } from 'generated/prisma/client';
 import { Exclude } from 'class-transformer';
 
 export class UserEntity implements User {

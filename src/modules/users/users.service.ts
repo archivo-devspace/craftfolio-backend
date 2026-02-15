@@ -4,7 +4,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { hashPassword } from 'src/common/utils/helpers';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entities/user.entity';
-import { Status } from '@prisma/client';
+import { Status } from 'generated/prisma/client';
 
 @Injectable()
 export class UsersService {
